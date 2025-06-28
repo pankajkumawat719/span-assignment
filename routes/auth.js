@@ -28,22 +28,18 @@ router.post("/register", async (req, res) => {
     // Check if phone number already exists
     const existingUserByPhone = await User.findOne({ where: { phoneNumber } });
     if (existingUserByPhone) {
-      return res
-        .status(409)
-        .json({
-          error: "Phone number already registered. Please use a different one.",
-        });
+      return res.status(409).json({
+        error: "Phone number already registered. Please use a different one.",
+      });
     }
 
     // Check if email already exists
     if (email) {
       const existingUserByEmail = await User.findOne({ where: { email } });
       if (existingUserByEmail) {
-        return res
-          .status(409)
-          .json({
-            error: "Email already registered. Please use a different one.",
-          });
+        return res.status(409).json({
+          error: "Email already registered. Please use a different one.",
+        });
       }
     }
 
@@ -51,7 +47,7 @@ router.post("/register", async (req, res) => {
       name,
       phoneNumber,
       email, // email can be null
-      password, 
+      password,
     });
 
     // Exclude password from the response

@@ -20,8 +20,6 @@ router.post("/", auth, async (req, res) => {
         .status(400)
         .json({ error: "Phone number is required to mark as spam." });
     }
-
-    // Check if the user has already reported this number as spam
     const existingReport = await Spam.findOne({
       where: { reportedByUserId, phoneNumber },
     });
@@ -37,12 +35,10 @@ router.post("/", auth, async (req, res) => {
       phoneNumber,
     });
 
-    res
-      .status(201)
-      .json({
-        message: "Number marked as spam successfully",
-        report: newSpamReport,
-      });
+    res.status(201).json({
+      message: "Number marked as spam successfully",
+      report: newSpamReport,
+    });
   } catch (error) {
     console.error("Error marking number as spam:", error);
     if (error.name === "SequelizeValidationError") {
