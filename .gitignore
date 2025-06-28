@@ -1,0 +1,33 @@
+# Node modules (essential to ignore)
+node_modules/
+
+# Environment variables
+.env
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+
+# OS and editor files
+.DS_Store
+Thumbs.db
+
+# Temporary files
+tmp/
+temp/
+
+# Coverage reports
+coverage/
+
+# IDE/project-specific settings
+.vscode/
+.idea/
+
+# Build output
+dist/
+build/
+
+# Optional: Ignore SQLite or other local dev DBs
+*.sqlite
+*.sqlite3

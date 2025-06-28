@@ -1,0 +1,29 @@
+{
+  "name": "spam-detection-api",
+  "version": "1.0.0",
+  "description": "Span Detection",
+  "main": "app.js",
+  "type": "module",
+  "scripts": {
+    "start": "node app.js",
+    "populate-db": "node utils/dataPopulator.js"
+  },
+  "keywords": [
+    "express",
+    "nodejs",
+    "mysql",
+    "sequelize",
+    "rest-api",
+    "spam-detection"
+  ],
+  "author": "Your Name",
+  "license": "ISC",
+  "dependencies": {
+    "bcrypt": "^5.1.1",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "jsonwebtoken": "^9.0.2",
+    "mysql2": "^3.10.0",
+    "sequelize": "^6.37.3"
+  }
+}
