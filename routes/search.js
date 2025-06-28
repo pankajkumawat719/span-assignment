@@ -8,10 +8,6 @@ import Spam from "../models/Spam.js";
 
 const router = Router();
 
-/**
- * Helper function to calculate spam likelihood
- * Spam likelihood is the count of spam reports for a given phone number.
- */
 const getSpamLikelihood = async (phoneNumber) => {
   const spamCount = await Spam.count({ where: { phoneNumber } });
   return spamCount;
@@ -35,20 +31,19 @@ router.get("/name", auth, async (req, res) => {
     const registeredUsers = await User.findAll({
       where: {
         name: {
-          [Op.like]: `%${query}%`, // Case-insensitive partial match
+          [Op.like]: `%${query}%`,
         },
       },
       attributes: ["id", "name", "phoneNumber", "email"], // Include email for registered users
     });
 
-    // 2. Search in Contacts (from all users' contact lists)
     const contacts = await Contact.findAll({
       where: {
         name: {
           [Op.like]: `%${query}%`,
         },
       },
-      attributes: ["name", "phoneNumber", "userId"], // userId is needed to check if it's the current user's contact
+      attributes: ["name", "phoneNumber", "userId"],
     });
 
     // Combine and deduplicate results
@@ -80,10 +75,7 @@ router.get("/name", auth, async (req, res) => {
       }
 
       const spamLikelihood = await getSpamLikelihood(contact.phoneNumber);
-      // Check if the current user is in this contact's owner's contact list
-      // This is a bit complex: we need to know if the *searched person* (if they are a registered user)
-      // is in the *current user's* contact list.
-      // For contacts, we just show the name from the contact list. Email is only for registered users.
+
       const registeredUserForContact = await User.findOne({
         where: { phoneNumber: contact.phoneNumber },
       });
@@ -106,9 +98,6 @@ router.get("/name", auth, async (req, res) => {
     // Convert object to array
     let finalResults = Object.values(combinedResults);
 
-    // Sort results:
-    // 1. Names starting with the query
-    // 2. Names containing but not starting with the query
     finalResults.sort((a, b) => {
       const aStarts = a.name.toLowerCase().startsWith(query.toLowerCase());
       const bStarts = b.name.toLowerCase().startsWith(query.toLowerCase());
@@ -196,12 +185,10 @@ router.get("/phone", auth, async (req, res) => {
     res.status(200).json({ results: uniqueResults });
   } catch (error) {
     console.error("Error during phone number search:", error);
-    res
-      .status(500)
-      .json({
-        error: "Failed to perform phone number search",
-        details: error.message,
-      });
+    res.status(500).json({
+      error: "Failed to perform phone number search",
+      details: error.message,
+    });
   }
 });
 

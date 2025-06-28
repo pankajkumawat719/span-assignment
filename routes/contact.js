@@ -56,7 +56,7 @@ router.get("/", auth, async (req, res) => {
     const userId = req.user.id;
     const contacts = await Contact.findAll({
       where: { userId },
-      order: [["name", "ASC"]], // Order contacts by name
+      order: [["name", "ASC"]],
     });
     res.status(200).json({ contacts });
   } catch (error) {
@@ -66,10 +66,5 @@ router.get("/", auth, async (req, res) => {
       .json({ error: "Failed to fetch contacts", details: error.message });
   }
 });
-
-// You can add PUT and DELETE routes for contacts if needed
-
-
-// For brevity, only POST and GET are included as per the core task.
 
 export default router;

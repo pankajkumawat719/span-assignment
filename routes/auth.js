@@ -18,7 +18,7 @@ router.post("/register", async (req, res) => {
   try {
     const { name, phoneNumber, email, password } = req.body;
 
-    // Basic validation
+    //  validation
     if (!name || !phoneNumber || !password) {
       return res
         .status(400)
@@ -35,7 +35,7 @@ router.post("/register", async (req, res) => {
         });
     }
 
-    // Check if email already exists if provided
+    // Check if email already exists
     if (email) {
       const existingUserByEmail = await User.findOne({ where: { email } });
       if (existingUserByEmail) {
@@ -51,7 +51,7 @@ router.post("/register", async (req, res) => {
       name,
       phoneNumber,
       email, // email can be null
-      password, // Password will be hashed by the User model hook
+      password, 
     });
 
     // Exclude password from the response

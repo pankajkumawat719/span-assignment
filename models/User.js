@@ -6,16 +6,19 @@ import bcrypt from "bcrypt";
 const User = sequelize.define(
   "User",
   {
+    // id
     id: {
       type: DataTypes.INTEGER,
       autoIncrement: true,
       primaryKey: true,
     },
+
+    // name
     name: {
-      // Changed from firstName, lastName to a single name field for simplicity in search
       type: DataTypes.STRING,
       allowNull: false,
     },
+    // phone number
     phoneNumber: {
       type: DataTypes.STRING,
       allowNull: false,
@@ -24,24 +27,26 @@ const User = sequelize.define(
         is: /^\+?[1-9]\d{1,14}$/, //  format for phone numbers
       },
     },
+    // email
     email: {
       type: DataTypes.STRING,
-      allowNull: true, // Email is optional
+      allowNull: true,
       unique: true,
       validate: {
         isEmail: true,
       },
     },
+    // password
     password: {
       type: DataTypes.STRING,
       allowNull: false,
     },
   },
+
   {
     tableName: "users",
-    timestamps: true, //  created At and updated At columns
+    timestamps: true,
     hooks: {
-      // Hash password before creating a new user
       beforeCreate: async (user) => {
         if (user.password) {
           const salt = await bcrypt.genSalt(10);
